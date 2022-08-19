@@ -1,0 +1,303 @@
+openapi: 3.0.0
+info:
+  title: ToDo Service API
+  description: A simple to-do list
+  contact:
+    name: Odysseus Aristeidou
+  version: 0.8.0
+  x-audience: external-partner
+
+paths:
+  /addItem:
+    post:
+      tags:
+        - AddItem
+      summary: Add an item list
+      description: Add an item list
+      operationId: addItem
+      parameters:
+        - $ref: '#/components/parameters/trackingId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/item'
+        required: true
+      responses:
+        201:
+          $ref: '#/components/responses/item'
+        400:
+          $ref: '#/components/responses/400BadRequestParams'
+        401:
+          $ref: '#/components/responses/401Unauthorized'
+        403:
+          $ref: '#/components/responses/403Forbidden'
+        500:
+          $ref: '#/components/responses/500InternalServerError'
+        501:
+          $ref: '#/components/responses/501NotImplemented'
+        503:
+          $ref: '#/components/responses/503ServiceUnavailable'
+        default:
+          $ref: '#/components/responses/genericError'
+      deprecated: false
+  /updateItem:
+    patch:
+      tags:
+        - UpdateItem
+      summary: Update details of an item list
+      description: Update details of an item list
+      operationId: updateItem
+      parameters:
+        - $ref: '#/components/parameters/trackingId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/item'
+        required: true
+      responses:
+        201:
+          $ref: '#/components/responses/item'
+        400:
+          $ref: '#/components/responses/400BadRequestParams'
+        401:
+          $ref: '#/components/responses/401Unauthorized'
+        403:
+          $ref: '#/components/responses/403Forbidden'
+        500:
+          $ref: '#/components/responses/500InternalServerError'
+        501:
+          $ref: '#/components/responses/501NotImplemented'
+        503:
+          $ref: '#/components/responses/503ServiceUnavailable'
+        default:
+          $ref: '#/components/responses/genericError'
+      deprecated: false
+  /getAllItems:
+    get:
+      tags:
+        - GetAllItems
+      summary: Get all items list by filter
+      description: Get all items list by filter
+      operationId: getAllItems
+      parameters:
+        - $ref: '#/components/parameters/itemId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/item'
+        required: true
+      responses:
+        201:
+          $ref: '#/components/responses/postItems'
+        400:
+          $ref: '#/components/responses/400BadRequestParams'
+        401:
+          $ref: '#/components/responses/401Unauthorized'
+        403:
+          $ref: '#/components/responses/403Forbidden'
+        500:
+          $ref: '#/components/responses/500InternalServerError'
+        501:
+          $ref: '#/components/responses/501NotImplemented'
+        503:
+          $ref: '#/components/responses/503ServiceUnavailable'
+        default:
+          $ref: '#/components/responses/genericError'
+      deprecated: false
+  /getAllDetailsById:
+    get:
+      tags:
+        - GetAllItems
+      summary: Get all items list by filter
+      description: Get all items list by filter
+      operationId: getAllItems
+      parameters:
+        - $ref: '#/components/parameters/itemId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/responses/item'
+        required: true
+      responses:
+        201:
+          $ref: '#/components/responses/postItems'
+        400:
+          $ref: '#/components/responses/400BadRequestParams'
+        401:
+          $ref: '#/components/responses/401Unauthorized'
+        403:
+          $ref: '#/components/responses/403Forbidden'
+        500:
+          $ref: '#/components/responses/500InternalServerError'
+        501:
+          $ref: '#/components/responses/501NotImplemented'
+        503:
+          $ref: '#/components/responses/503ServiceUnavailable'
+        default:
+          $ref: '#/components/responses/genericError'
+      deprecated: false
+      
+components:
+  parameters:
+    itemId:
+      name: itemId
+      in: path
+      description: "The item reference id"
+      style: simple
+      explode: false
+      schema:
+        $ref: '#/components/schemas/referenceID'
+    trackingId:
+      name: trackingId
+      in: header
+      description: "The external reference id to retrace the request"
+      style: simple
+      explode: false
+      schema:
+        $ref: '#/components/schemas/referenceID'
+  headers:
+    trackingId:
+      description: "The tracking-id to map client with server errors/requests/responses"
+      style: simple
+      explode: false
+      schema:
+        $ref: '#/components/schemas/referenceID'
+  schemas:
+    item:
+      title: item
+      description: Details of an item todo-list
+      type: object
+      required:
+        - description
+        - status
+        - dueDate
+      properties:
+        itemId:
+          $ref: '#/components/schemas/itemId'
+        description:
+          type: string
+          nullable: false
+        status:
+          $ref: '#/components/schemas/statusType'
+        creationDate:
+          type: string
+          format: date-time
+        dueDate:
+          type: string
+          format: date-time
+          nullable: false
+        doneDate:
+          type: string
+          format: date-time
+    responseItems:
+      title: responseItems
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/item'
+    itemId:
+      type: integer
+      format: int64
+      example: 1
+      description: "The id of an item todo-list"
+    referenceID:
+      type: string
+      example: 550e8400-e29b-11d4-a716-446655440000
+      format: uuid
+      description: "The reference id to map client with server errors/requests/responses"
+    statusType:
+      title: statusType
+      enum:
+        - "not done"
+        - "done"
+        - "past due"
+      type: string
+      description: Item status of a todo-list
+      example: "not done"
+    toDoApiException:
+      title: toDoApiException
+      type: object
+      properties:
+        notification:
+          type: array
+          items:
+            $ref: '#/components/schemas/notificationItemReference'
+    notificationItemReference:
+      title: notificationItemReference
+      description: Enables the extension of a status message with additional information (such as error messages or notes).
+      required:
+        - NotificationType
+        - IdentityNumber
+      type: object
+      properties:
+        NotificationType:
+          $ref: '#/components/schemas/notificationType'
+        Text:
+          type: string
+          description: Message as plain text. This MUST be natural language and for an end user (mediator) formulated technically understandable. The message MUST be displayed on the user interface.
+          nullable: true
+        IdentityNumber:
+          maxLength: 30
+          minLength: 0
+          type: string
+          example: "01005"
+          description: Alphanumeric unambiguous identification of the message or the error or note. The number facilitates in particular the non-technical communication between user and provider.
+    notificationType:
+      title: notificationType
+      enum:
+        - Error
+        - Info
+        - Warning
+      type: string
+      example: Info
+      
+  responses:
+    postItems:
+      description: Response object of the post item request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/responseItems'
+    item:
+      description: Response object of the post item request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/item'
+    400BadRequestParams:
+      description: The server cannot or will not process the request due to an apparent client error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/toDoApiException'
+      headers:
+        trackingId:
+          $ref: '#/components/headers/trackingId'
+    401Unauthorized:
+      description: The request has not been applied because it lacks valid authentication credentials for the target resource
+    403Forbidden:
+      description: The server understood the request but refuses to authorize it
+    500InternalServerError:
+      description: The server encountered an unexpected condition that prevented it from fulfilling the request
+      headers:
+        trackingId:
+          $ref: '#/components/headers/trackingId'
+    501NotImplemented:
+      description: The server does not support the functionality required to fulfill the request
+      headers:
+        trackingId:
+          $ref: '#/components/headers/trackingId'
+    503ServiceUnavailable:
+      description: The server is currently unable to handle the request due to a temporary overload or scheduled maintenance, which will likely be alleviated after some delay
+      headers:
+        trackingId:
+          $ref: '#/components/headers/trackingId'
+    genericError:
+      description: An error occurred.
+      content: {}
