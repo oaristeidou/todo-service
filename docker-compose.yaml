@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  app:
+    container_name: todo-service
+    image: todo-service/todo-service:latest
+    build:
+      context: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:mydb
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_DRIVERCLASSNAME: org.h2.Driver
+      SPRING_JPA_DATABASE-PLATFORM: org.hibernate.dialect.H2Dialect
+      SPRING_H2_ENABLED: true
+    ports:
+      - 8080:8080
+    restart: always
