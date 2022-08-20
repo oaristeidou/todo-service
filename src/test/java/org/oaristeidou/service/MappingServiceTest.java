@@ -18,7 +18,7 @@ class MappingServiceTest {
 
   @BeforeAll
   static void init(){
-    mappingService = new MappingService();
+    mappingService = new MappingService(null);
   }
 
   @Test

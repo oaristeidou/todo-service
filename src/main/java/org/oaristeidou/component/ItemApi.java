@@ -28,7 +28,7 @@ public interface ItemApi {
 
   @PatchMapping(value = "v1/todo-list/items/updateItem", produces = {"application/json"}, consumes = {"application/json"})
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  void updateItem(@Valid @NotNull @RequestBody Item request, HttpServletResponse response)
+  ResponseEntity<Item> updateItem(@Valid @NotNull @RequestBody Item request)
       throws ToDoAPIApiExceptionThrowable, IOException;
 
   @GetMapping(value = "v1/todo-list/items/getAllItems", produces = {"application/json"}, consumes = {"application/json"})

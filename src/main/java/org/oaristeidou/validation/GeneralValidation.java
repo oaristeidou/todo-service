@@ -27,7 +27,7 @@ public enum GeneralValidation {
       isDueDateGiven()),
   DETAILS_ITEM_CANNOT_BE_NULL_OR_EMPTY(createNotificationItemReference("03",
       NotificationType.ERROR,
-      "The description, status and due date are missing!"),
+      "The description, status or/and due date are missing!"),
       ToDoApplicationOperation.ADD,
       isDetailsItemIncomplete())
 
@@ -36,12 +36,6 @@ public enum GeneralValidation {
   NotificationItemReference notificationItemReference;
   ToDoApplicationOperation applicationOperation;
   Predicate<Item> condition;
-
-  GeneralValidation(NotificationItemReference notificationItemReference,
-      Predicate<Item> condition) {
-    this.notificationItemReference = notificationItemReference;
-    this.condition = condition;
-  }
 
   GeneralValidation(NotificationItemReference notificationItemReference,
       ToDoApplicationOperation applicationOperation,

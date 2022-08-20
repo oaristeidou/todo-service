@@ -110,10 +110,10 @@ paths:
   /getAllDetailsById:
     get:
       tags:
-        - GetAllItems
-      summary: Get all items list by filter
-      description: Get all items list by filter
-      operationId: getAllItems
+        - GetAllDetailsById
+      summary: Get all items list by id
+      description: Get all items list by id
+      operationId: getAllDetailsById
       parameters:
         - $ref: '#/components/parameters/itemId'
       requestBody:
@@ -180,7 +180,6 @@ components:
           $ref: '#/components/schemas/itemId'
         description:
           type: string
-          nullable: false
         status:
           $ref: '#/components/schemas/statusType'
         creationDate:
@@ -189,10 +188,13 @@ components:
         dueDate:
           type: string
           format: date-time
-          nullable: false
         doneDate:
           type: string
           format: date-time
+        notification:
+          type: array
+          items:
+            $ref: '#/components/schemas/notificationItemReference'
     responseItems:
       title: responseItems
       type: object

@@ -6,17 +6,28 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.oaristeidou.entity.ItemEntity;
+import org.oaristeidou.exception.ToDoAPIApiExceptionThrowable;
+import org.oaristeidou.service.impl.H2DBService;
 import org.openapitools.model.Item;
 import org.openapitools.model.ResponseItems;
 import org.openapitools.model.StatusType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MappingService {
+  final
+  H2DBService h2DBService;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MappingService.class);
+
+  public MappingService(
+      H2DBService h2DBService) {
+    this.h2DBService = h2DBService;
+  }
 
   public ItemEntity createItemEntity(Item itemRequest, ItemEntity entity){
     return Optional.of(entity)
@@ -173,6 +184,22 @@ public class MappingService {
       LOGGER.error("Error by search status type: " + argumentException);
     }
     return null;
+  }
+
+  public Optional<ResponseEntity<Item>> updateItemOptional(Item itemRequest) {
+    return Optional.ofNullable(itemRequest)
+        .map(item -> {
+          Item responseItem = null;
+          try {
+            ItemEntity entity = new ItemEntity();
+            h2DBService.updateItem(mapUpdateItem(itemRequest, entity));
+            responseItem = createResponseItem(h2DBService.checkDueDate(entity), itemRequest);
+          } catch (ToDoAPIApiExceptionThrowable toDoAPIApiExceptionThrowable) {
+            itemRequest.setNotification(toDoAPIApiExceptionThrowable.getToDoApiException().getNotification());
+            return new ResponseEntity<>(itemRequest, HttpStatus.BAD_REQUEST);
+          }
+          return new ResponseEntity<>(responseItem, HttpStatus.CREATED);
+        });
   }
 
 }

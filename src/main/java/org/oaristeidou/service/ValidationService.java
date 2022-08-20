@@ -2,6 +2,7 @@ package org.oaristeidou.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.oaristeidou.model.ToDoApplicationOperation;
 import org.oaristeidou.validation.GeneralValidation;
 import org.openapitools.model.Item;
@@ -13,9 +14,24 @@ import org.springframework.web.context.annotation.RequestScope;
 @RequestScope
 public class ValidationService {
 
-  public List<NotificationItemReference> validate(Item item,
-      ToDoApplicationOperation update){
-    return new ArrayList<>(GeneralValidation.validate(item, update));
+  public Boolean validateAddOperation(Item item){
+    return Optional.of(new ArrayList<>(GeneralValidation.validate(item, ToDoApplicationOperation.ADD)))
+        .filter(list -> !list.isEmpty())
+        .map(notificationItemReferences -> addNotificationsIntoResponse(item, notificationItemReferences))
+        .orElse(true);
   }
 
+  public Boolean validateUpdateOperation(Item item){
+    return Optional.of(new ArrayList<>(GeneralValidation.validate(item, ToDoApplicationOperation.UPDATE)))
+        .filter(list -> !list.isEmpty())
+        .map(notificationItemReferences -> addNotificationsIntoResponse(item, notificationItemReferences))
+        .orElse(true);
+  }
+
+
+  private boolean addNotificationsIntoResponse(Item itemRequest,
+      List<NotificationItemReference> notificationItemReferences) {
+    itemRequest.setNotification(new ArrayList<>(notificationItemReferences));
+    return false;
+  }
 }
