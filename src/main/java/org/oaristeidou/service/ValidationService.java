@@ -10,6 +10,10 @@ import org.openapitools.model.NotificationItemReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 
+/**
+ * ValidationService is a service for performing all the enum validations,
+ * which are categories in different types.
+ */
 @Service
 @RequestScope
 public class ValidationService {

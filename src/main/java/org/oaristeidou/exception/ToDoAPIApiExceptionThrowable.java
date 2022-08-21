@@ -3,6 +3,9 @@ package org.oaristeidou.exception;
 import org.openapitools.model.ToDoApiException;
 import org.springframework.http.HttpStatus;
 
+/**
+ * ToDoAPIApiExceptionThrowable is a custon throwable To-Do Service Application
+ */
 public class ToDoAPIApiExceptionThrowable extends Throwable {
   private ToDoApiException toDoApiException;
   private HttpStatus httpStatus;

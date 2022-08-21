@@ -19,6 +19,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * The Item controller contains all operation of the app which are the following:
+ * - addItem
+ * - updateItem
+ * - getAllItems
+ * - getAllDetailsById
+ */
 @RestController
 public class ItemController implements ItemApi{
 

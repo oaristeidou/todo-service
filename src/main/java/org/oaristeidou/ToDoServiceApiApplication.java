@@ -14,6 +14,11 @@ public class ToDoServiceApiApplication implements WebMvcConfigurer{
     SpringApplication.run(ToDoServiceApiApplication.class, args);
   }
 
+  /**
+   * Implement a custom HandlerExceptionResolver for always showing the
+   * best http status according to the user inputs
+   * @param resolvers
+   */
   @Override
   public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
     resolvers.add(0, new ToDoAPIHandlerExceptionResolver());

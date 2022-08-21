@@ -17,6 +17,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+/**
+ * The MappingService is a service for performing the
+ * mapping of the object between the layers
+ */
 @Service
 public class MappingService {
   final

@@ -14,6 +14,11 @@ import org.openapitools.model.Item;
 import org.openapitools.model.NotificationItemReference;
 import org.openapitools.model.NotificationType;
 
+/**
+ * General validation class is a collection of business validations
+ * that can be of different application type.
+ * Such as the Update, Add, Get application types
+ */
 public enum GeneralValidation {
   PAST_DUE_CANNOT_BE_CHANGE(createNotificationItemReference("01",
       NotificationType.ERROR,

@@ -33,6 +33,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver;
 
+/**
+ * ToDoAPIHandlerExceptionResolver is an implementation of AbstractHandlerExceptionResolver
+ * that gives a message for any possible exception of the application.
+ */
 @Component
 public class ToDoAPIHandlerExceptionResolver extends AbstractHandlerExceptionResolver {
 

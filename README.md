@@ -43,6 +43,7 @@ and it would be considered maybe in the next releases :)!
 - [x] Services: REST over HTTP
 - [x] Database: H2 in memory database
 - [x] PostmanCanary Version 9.20.0-canary
+- [x] Maven 3.6.3
 
 ## How to build the service with docker
 

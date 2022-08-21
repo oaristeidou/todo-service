@@ -19,6 +19,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+/**
+ * The Item Api contains all the annotations of the operations.
+ * The purpose here is to keep clean as possible the ItemController from any api annotations
+ * and given a good overview of all the application operations
+ */
 @Api(value = "v1/todo-list/items")
 public interface ItemApi {
 

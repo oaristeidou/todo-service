@@ -4,6 +4,10 @@ import javax.validation.constraints.NotNull;
 import org.openapitools.model.NotificationItemReference;
 import org.openapitools.model.NotificationType;
 
+/**
+ * Database validation class is an enum for containing
+ * the check of all the Database notification types.
+ */
 public enum DatabaseValidation {
   ERROR_BY_SEARCHING_ITEM_ID(createNotificationItemReference("04",
       NotificationType.ERROR,
